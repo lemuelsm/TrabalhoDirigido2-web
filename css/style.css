@@ -1,0 +1,51 @@
+:root {
+    --main-color: #FFDC00;
+    --text-color: white;
+    --bg-color-01: #1f242d;
+    --bg-color-02: #323946;
+    --color-00: #0000001a;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+} 
+
+
+.btn-delete {
+    background-color: aqua;
+    border-color: red;
+    color: black;
+    border-radius: 1.5rem;
+    min-width: 50px;
+    width: 8%;
+    height: 1.7rem;
+    /* border: solid 5px blue; */
+}
+
+html {
+    font-family: cursive;
+    color: white;
+}
+
+body {
+    background-color: var(--bg-color-01);
+}
+
+.container {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    margin: 3rem 4rem;
+    padding: 2rem 1rem 2.5rem;
+    border-radius: 1.2rem;
+    text-align: center;
+    border: solid 0.15rem var(--bg-color-01);
+    background-color: var(--bg-color-02);
+    width: 70%;
+}
