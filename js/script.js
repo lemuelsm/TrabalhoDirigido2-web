@@ -1,68 +1,138 @@
-console.log('Olá pessoas');
 
-const Lista = {
-    usuario: [
-        {
-            // username: 'lemuel santana',
-            username
-        }
-    ],
+document.addEventListener("DOMContentLoaded", () => {
 
-    tarefas: [
-        {
-            // content: 'testandoooo',
-            // autor: 'lemuel santana',
-            // id: 1
-            content,
-            autor,
-            id
-        }
-    ],
-};
+    const buttonCreate = document.querySelector("#buttonCreate");
+    const buttonDelete = document.getElementsByClassName("btn-delete");
 
 
-
-//CREATE
-function criaTarefa(dados) {
-    Lista.tarefas.push({
-        id: Lista.tarefas.length + 1,
-        content: dados.content,
-        autor: dados.autor
+    buttonCreate.addEventListener('click', function(e){
+        e.preventDefault();
+        novaTarefa();
     });
-}
-criaTarefa({autor: 'lemuel', content: 'Segundo tweet'});
-criaTarefa({autor: 'lemuel', content: 'Terceiro tweet'});
-console.log(Lista.tarefas)
+
+    function novaTarefa(){
+      var div = document.createElement("div");
+      div.className = "container";
+      var divtxt = document.createElement("div");
+      divtxt.className = "text";
+
+      divtxt.contentEditable = false;
+
+
+      var button = document.createElement("button");
+      button.className = "btn-delete";
+      var txtDelete = document.createTextNode("Apagar");
+      button.appendChild(txtDelete);
+      var buttonEdit = document.createElement("button");
+      buttonEdit.className = "btn-edit";
+      var txtEdit = document.createTextNode("Editar");
+      buttonEdit.appendChild(txtEdit);
+
+      buttonEdit.addEventListener("click", () => {
+            editar(buttonEdit);
+      });
+      
+  
+      var inputValue = document.getElementById("campoCriaTarefa").value;
+      console.log(inputValue);
+      var text = document.createTextNode(inputValue);
+      divtxt.appendChild(text);
+      div.appendChild(divtxt);
+      div.appendChild(buttonEdit);
+      div.appendChild(button);
+
+     
+      button.addEventListener("click", () => {
+          button.parentNode.remove();
+      })
+  
+    
+  
+  
+      if(inputValue === ''){
+          alert("Digite algo para adicionar");
+      }else{
+          var lista = document.getElementById("lista");
+          lista.appendChild(div);
+      }
+      document.getElementById("campoCriaTarefa").value = "";
+
+      
+    }
+
+
+    //Apagar
+    const buttonsDelete = document.getElementsByClassName("btn-delete");
+
+    for (let botao of buttonsDelete) {
+        botao.addEventListener("click", () => {
+            botao.parentNode.remove();
+        })
+    }
+
+    console.log(buttonsDelete);
 
 
 
-//READ
-function pegaTarefas() {
-    return Lista.tarefas;
-}
-console.log(pegaTarefas())
+
+    function editar(botao) {
+
+
+          botao.addEventListener("click", () => {
+              const input = botao.parentNode.getElementsByTagName("div")[0];
+
+              
+              input.contentEditable = true;
+              input.focus();
+             
+          });
+    }
 
 
 
 
-//UPDATE
-function atualizaTarefa(id, novoConteudo) {
-    const tarefaQueSeraAtualizada = pegaTarefas().find((tarefa) => {
-        return tarefa.id === id;
+
+
+    const buttonsEdit = document.getElementsByClassName("btn-edit");
+
+    for(let botao of buttonsEdit) {
+        botao.addEventListener("click", () => {
+            const input = botao.parentNode.getElementsByTagName("div")[0];
+            
+            input.contentEditable = true;
+            input.focus();
+
+        });
+    }
+
+
+    const click = document.addEventListener('click', function(e) {
+        const elementoAtual = e.target;
+        const isBtnEditClick = e.target.classList.contains("btn-edit");
+        console.log(isBtnEditClick);
+        console.log(e.target);
+
+        if(isBtnEditClick) {
+
+            const input = e.target.parentNode.getElementsByTagName("div")[0];
+            input.contentEditable = true;
+            input.focus();
+
+        } else if(e.target.classList.contains("text")){
+           
+            editar(e.target);
+            
+        } else {
+            
+            const divsTxt = document.getElementsByClassName("text");
+
+            for (let divs of divsTxt) {
+                divs.contentEditable = false;
+                console.log(divs.contentEditable);
+            }
+            
+        }
     });
-    console.log(tarefaQueSeraAtualizada)
-    tarefaQueSeraAtualizada.content = novoConteudo
-}
-atualizaTarefa(1, 'nova tarefaaaa')
-console.log(pegaTarefas())
 
 
-//DELETE
-function apagaTarefa(id) {
-    const listaDeTarefasAtualizadas = pegaTarefas().filter((tarefaAtual) => {
-        return tarefaAtual.id !== id;
-    })
-    Lista.tarefas = listaDeTarefasAtualizadas;
-}
-apagaTarefa(1);
-console.log(pegaTarefas());
+});

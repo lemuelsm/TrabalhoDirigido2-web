@@ -3,146 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Lista de Tarefas</title>
+        <title>Lista de Tarefa</title>
         <link rel="stylesheet" href = "css/style.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
 
     <body>
         <h1>Lista de Tarefas</h1>
         <form>
-            <input name="campoCriaTarefa" placeholder="Digite sua nova tarefa">
-            <button type="submit">Criar tarefa</button>
+            <input id="campoCriaTarefa" placeholder="Digite sua nova tarefa">
+            <button id="buttonCreate" type="submit">Criar tarefa</button>
         </form>
 
         <!-- Lista -->
-        <div class="itemTarefa">
-            <ul class="listaDeTarefas">
+        <div id="lista" class="lista">
 
-            </ul>
         </div>
+       
 
     </body>
 
-    <!-- <script src="js/script.js"></script> -->
-    <script>
-        console.log('NIVEL 2');
+    <script src="js\script.js"></script>
 
-        //Base de dados
-        const Lista = {
-            usuario: [
-                {
-                    username: 'lemuel santana',
-                }
-            ],
-
-            tarefas: [
-                {
-                    content: '',
-                    autor: 'lemuel santana',
-                    id: Date.now()
-                }
-            ],
-            readTarefas() {
-                Lista.tarefas.forEach(({ id, content, autor }) => {
-                    Lista.criaTarefa({id, autor: autor, content: content }, true);
-                })
-            },
-            criaTarefa(dados, htmlOnly = false) {
-                const idInterno = Date.now();
-                if(!htmlOnly) {
-                    //Cria tarefas na memória (array/objeto)
-                    Lista.tarefas.push({
-                        id: dados.id || idInterno,
-                        content: dados.content,
-                        autor: dados.autor
-                    });
-
-                }
-                
-                //Cria tarefa no html
-                // const $listaDeTarefas = document.querySelector('.listaDeTarefas');
-                // $listaDeTarefas.insertAdjacentHTML('afterbegin', `
-                //     <li data-id="${idInterno}">
-                //         Tarefa: <span contenteditable>
-                //             ${dados.content}
-                //         </span>
-                //         <button class="btn-delete">Delete</button>
-                //     </li>
-                // `);
-                const $listaDeTarefas = document.querySelector('.listaDeTarefas');
-                $listaDeTarefas.insertAdjacentHTML('afterbegin', `
-                    <div data-id="${idInterno}" class="container">
-                        <div class = "text">
-                            Tarefa: <span contenteditable>
-                                ${dados.content}
-                            </span>
-                        </div>
-                        <button class="btn-delete">Apagar</button>
-                    </li>
-                `);
-
-            },
-            apagaTarefa(id) {
-                const listaDeTarefasAtualizadas = Lista.tarefas.filter((tarefaAtual) => {
-                    return tarefaAtual.id !== Number(id);
-                })
-                Lista.tarefas = listaDeTarefasAtualizadas;
-            },
-            atualizaTarefa(id, novoConteudo) {
-                const tarefaQueSeraAtualizada = Lista.tarefas.find((tarefa) => {
-                    return tarefa.id === Number(id);
-                });
-                console.log(tarefaQueSeraAtualizada)
-                tarefaQueSeraAtualizada.content = novoConteudo
-            }
-
-
-        };
-
-
-
-
-        //Front End
-        const $meuForm = document.querySelector('form');
-        console.log($meuForm);
-
-        //READ
-        Lista.readTarefas();
-
-        //CREATE
-        $meuForm.addEventListener('submit', function criaTarefaController(infosDoEvento) {
-            infosDoEvento.preventDefault();
-            console.log('criando tarefa nova')
-            const $campoCriaTarefa = document.querySelector('input[name="campoCriaTarefa"]');
-
-            Lista.criaTarefa({autor: 'lemuel', content: $campoCriaTarefa.value });
-
-            $campoCriaTarefa.value = '';
-            
-        })
-
-        //DELETE
-        document.querySelector('.listaDeTarefas').addEventListener('click', function(infosDoEvento){
-            console.log('houve click');
-            const elementoAtual = infosDoEvento.target;
-            const isBtnDeleteClick = infosDoEvento.target.classList.contains('btn-delete')
-            if(isBtnDeleteClick) {
-                console.log('Clicou no apagar');
-                const id = elementoAtual.parentNode.getAttribute('data-id');
-                Lista.apagaTarefa(id)
-                elementoAtual.parentNode.remove();
-                console.log(Lista.tarefas);
-            }
-        })
-
-        //UPDATE
-        document.querySelector('.listaDeTarefas').addEventListener('input', function(infosDoEvento) {
-            console.log('houve digitação');
-            const elementoAtual = infosDoEvento.target;
-            const id = elementoAtual.parentNode.getAttribute('data-id');
-
-            Lista.atualizaTarefa(id, elementoAtual.innerText)
-        });
-
-    </script>
 </html>
